@@ -170,12 +170,23 @@ print("Database 2 (medical_research.db) oprettet med tabellen 'Research_Data'.")
 conn_research.close()
 
 
-# --- EKSEMPEL PÅ UDTRÆK FRA EN AF DATABASERNE ---
-# Vi åbner research-databasen for at tjekke at data er gemt korrekt
-conn = sqlite3.connect('medical_research.db')
-query = "SELECT Student_ID, BMI, Heart_Rate, Smoking FROM Research_Data WHERE BMI > 25 LIMIT 5"
-df_check = pd.read_sql(query, conn)
-conn.close()
+import sqlite3
+import pandas as pd
 
-print("\nTjek af data fra medical_research.db (Studerende med BMI > 25):")
-print(df_check)
+# --- PRINT FRA DATABASE 1: student_admin.db ---
+conn_admin = sqlite3.connect('student_admin.db')
+print("=== PRINT FRA DATABASE: student_admin.db (Tabellen: Admin_Info) ===")
+# Vi henter de første 5 rækker
+df_admin_print = pd.read_sql("SELECT * FROM Admin_Info LIMIT 5", conn_admin)
+print(df_admin_print)
+conn_admin.close()
+
+print("\n" + "="*60 + "\n")
+
+# --- PRINT FRA DATABASE 2: medical_research.db ---
+conn_research = sqlite3.connect('medical_research.db')
+print("=== PRINT FRA DATABASE: medical_research.db (Tabellen: Research_Data) ===")
+# Vi henter de første 5 rækker
+df_research_print = pd.read_sql("SELECT * FROM Research_Data LIMIT 5", conn_research)
+print(df_research_print)
+conn_research.close()
